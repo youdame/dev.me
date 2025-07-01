@@ -1,0 +1,286 @@
+import React, { useState } from 'react';
+import { ResumeData, PersonalInfo, TechStack, Project, NarrativeAnswers } from './types';
+import { useLocalStorage } from './hooks/useLocalStorage';
+import { ProgressBar } from './components/ProgressBar';
+import { PersonalInfoForm } from './components/PersonalInfoForm';
+import { TechStackForm } from './components/TechStackForm';
+import { ProjectsForm } from './components/ProjectsForm';
+import { NarrativeForm } from './components/NarrativeForm';
+import { TemplateSelection } from './components/TemplateSelection';
+import { ResumePreview } from './components/ResumePreview';
+import { ChevronLeft, ChevronRight, Download, Share2, Eye, Edit } from 'lucide-react';
+
+function App() {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isPreviewMode, setIsPreviewMode] = useState(false);
+
+  const steps = ['Basic Info', 'Tech Stack', 'Projects', 'Your Story', 'Design', 'Preview'];
+  
+  // Initialize with empty data
+  const initialData: ResumeData = {
+    personalInfo: {
+      name: '',
+      email: '',
+      phone: '',
+      location: '',
+      github: '',
+      linkedin: '',
+      website: '',
+      bio: ''
+    },
+    techStack: {
+      languages: [],
+      frameworks: [],
+      tools: [],
+      databases: []
+    },
+    projects: [],
+    narrativeAnswers: {
+      hardestProblem: '',
+      proudestAchievement: '',
+      learningExperience: '',
+      futureGoals: '',
+      workStyle: '',
+      motivation: ''
+    },
+    selectedTemplate: 'modern',
+    selectedTheme: 'blue'
+  };
+
+  const [resumeData, setResumeData] = useLocalStorage<ResumeData>('dev-me-resume-data', initialData);
+
+  const updatePersonalInfo = (data: PersonalInfo) => {
+    setResumeData({ ...resumeData, personalInfo: data });
+  };
+
+  const updateTechStack = (data: TechStack) => {
+    setResumeData({ ...resumeData, techStack: data });
+  };
+
+  const updateProjects = (data: Project[]) => {
+    setResumeData({ ...resumeData, projects: data });
+  };
+
+  const updateNarrativeAnswers = (data: NarrativeAnswers) => {
+    setResumeData({ ...resumeData, narrativeAnswers: data });
+  };
+
+  const updateTemplate = (template: string) => {
+    setResumeData({ ...resumeData, selectedTemplate: template });
+  };
+
+  const updateTheme = (theme: string) => {
+    setResumeData({ ...resumeData, selectedTheme: theme });
+  };
+
+  const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      setIsPreviewMode(true);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const canProceed = () => {
+    switch (currentStep) {
+      case 1:
+        return resumeData.personalInfo.name.trim() && resumeData.personalInfo.email.trim();
+      case 2:
+        return Object.values(resumeData.techStack).some(arr => arr.length > 0);
+      case 3:
+        return true; // Projects are optional
+      case 4:
+        return true; // Narrative answers are optional
+      case 5:
+        return resumeData.selectedTemplate && resumeData.selectedTheme;
+      default:
+        return true;
+    }
+  };
+
+  const handleExportPDF = () => {
+    window.print();
+  };
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: `${resumeData.personalInfo.name} - Developer Resume`,
+          url: url,
+        });
+      } catch (error) {
+        console.log('Error sharing:', error);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard!');
+      } catch (error) {
+        console.log('Error copying to clipboard:', error);
+      }
+    }
+  };
+
+  if (isPreviewMode) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {/* Preview Header */}
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                dev.me
+              </h1>
+              <p className="text-sm text-gray-600">Resume Preview</p>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setIsPreviewMode(false)}
+                className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <Edit className="h-4 w-4" />
+                Edit
+              </button>
+              
+              <button
+                onClick={handleExportPDF}
+                className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Download className="h-4 w-4" />
+                Export PDF
+              </button>
+              
+              <button
+                onClick={handleShare}
+                className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Share2 className="h-4 w-4" />
+                Share
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ResumePreview data={resumeData} />
+      </div>
+    );
+  }
+
+  const renderCurrentStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <PersonalInfoForm
+            data={resumeData.personalInfo}
+            onChange={updatePersonalInfo}
+          />
+        );
+      case 2:
+        return (
+          <TechStackForm
+            data={resumeData.techStack}
+            onChange={updateTechStack}
+          />
+        );
+      case 3:
+        return (
+          <ProjectsForm
+            data={resumeData.projects}
+            onChange={updateProjects}
+          />
+        );
+      case 4:
+        return (
+          <NarrativeForm
+            data={resumeData.narrativeAnswers}
+            onChange={updateNarrativeAnswers}
+          />
+        );
+      case 5:
+        return (
+          <TemplateSelection
+            selectedTemplate={resumeData.selectedTemplate}
+            selectedTheme={resumeData.selectedTheme}
+            onTemplateChange={updateTemplate}
+            onThemeChange={updateTheme}
+          />
+        );
+      case 6:
+        return <ResumePreview data={resumeData} />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <ProgressBar
+        currentStep={currentStep}
+        totalSteps={steps.length}
+        steps={steps}
+      />
+      
+      <div className="max-w-6xl mx-auto px-6 py-8">
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          <div className="p-8 lg:p-12">
+            {renderCurrentStep()}
+          </div>
+          
+          {/* Navigation */}
+          <div className="bg-gray-50 px-8 py-6 flex justify-between items-center border-t border-gray-100">
+            <button
+              onClick={handlePrevious}
+              disabled={currentStep === 1}
+              className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Previous
+            </button>
+            
+            <div className="flex items-center gap-4">
+              {currentStep === steps.length && (
+                <button
+                  onClick={() => setIsPreviewMode(true)}
+                  className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Eye className="h-4 w-4" />
+                  Preview
+                </button>
+              )}
+              
+              <button
+                onClick={handleNext}
+                disabled={!canProceed()}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              >
+                {currentStep === steps.length ? (
+                  <>
+                    <Eye className="h-4 w-4" />
+                    Preview
+                  </>
+                ) : (
+                  <>
+                    Next
+                    <ChevronRight className="h-4 w-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
