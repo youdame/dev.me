@@ -13,13 +13,13 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
   };
 
   const inputFields = [
-    { key: 'name' as keyof PersonalInfo, label: '이름', icon: User, required: true },
-    { key: 'email' as keyof PersonalInfo, label: '이메일', icon: Mail, required: true, type: 'email' },
-    { key: 'phone' as keyof PersonalInfo, label: '전화번호', icon: Phone, type: 'tel' },
-    { key: 'location' as keyof PersonalInfo, label: '거주지', icon: MapPin },
-    { key: 'github' as keyof PersonalInfo, label: 'GitHub URL', icon: Github, type: 'url' },
-    { key: 'linkedin' as keyof PersonalInfo, label: 'LinkedIn URL', icon: Linkedin, type: 'url' },
-    { key: 'website' as keyof PersonalInfo, label: '개인 웹사이트', icon: Globe, type: 'url' },
+    { key: 'name' as keyof PersonalInfo, label: '이름', icon: User, required: true, placeholder: '이름을 입력해주세요' },
+    { key: 'email' as keyof PersonalInfo, label: '이메일', icon: Mail, required: true, type: 'email', placeholder: '이메일을 입력해주세요' },
+    { key: 'phone' as keyof PersonalInfo, label: '전화번호', icon: Phone, type: 'tel', placeholder: '전화번호를 입력해주세요' },
+    { key: 'location' as keyof PersonalInfo, label: '거주지', icon: MapPin, placeholder: '거주지를 입력해주세요' },
+    { key: 'github' as keyof PersonalInfo, label: 'GitHub URL', icon: Github, type: 'url', placeholder: 'GitHub URL을 입력해주세요' },
+    { key: 'linkedin' as keyof PersonalInfo, label: 'LinkedIn URL', icon: Linkedin, type: 'url', placeholder: 'LinkedIn URL을 입력해주세요' },
+    { key: 'website' as keyof PersonalInfo, label: '개인 웹사이트', icon: Globe, type: 'url', placeholder: '웹사이트 URL을 입력해주세요' },
   ];
 
   return (
@@ -47,7 +47,7 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
                   value={data[field.key]}
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-                  placeholder={`${field.label}을(를) 입력해주세요`}
+                  placeholder={field.placeholder}
                 />
               </div>
             </div>
