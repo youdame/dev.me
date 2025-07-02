@@ -101,8 +101,8 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
           className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 resize-none"
           placeholder={
             contentLevel === 'simple' 
-              ? '간단한 자기소개를 작성해주세요...'
-              : '자신에 대한 간단한 소개, 관심사, 개발자로서의 동기 등을 작성해주세요...'
+              ? '간단한 자기소개를 작성해주세요'
+              : '자신에 대한 간단한 소개, 관심사, 개발자로서의 동기 등을 작성해주세요'
           }
         />
       </div>
