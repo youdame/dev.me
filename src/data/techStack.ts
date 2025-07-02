@@ -48,6 +48,6 @@ export const narrativeQuestions = [
   {
     id: 'motivation',
     question: '개발에 대한 열정의 원동력은 무엇인가요?',
-    placeholder: '계속 코딩하게 만드는 것은 무엇인가요? 기술에 대해 흥미진진한 점은?'
+    placeholder: '당신을 계속해서 코딩하게 만드는 원동력은 무엇인가요? 어떤 점이 흥미로운가요?'
   }
 ];
