@@ -14,7 +14,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
-  const steps = ['기본 정보', '기술 스택', '프로젝트', '나의 이야기', '디자인', '미리보기'];
+  const steps = ['기본 정보', '기술 스택', '프로젝트', '나의 이야기', '디자인'];
   
   // Initialize with empty data
   const initialData: ResumeData = {
@@ -76,8 +76,6 @@ function App() {
   const handleNext = () => {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
-    } else {
-      setIsPreviewMode(true);
     }
   };
 
@@ -215,8 +213,6 @@ function App() {
             onThemeChange={updateTheme}
           />
         );
-      case 6:
-        return <ResumePreview data={resumeData} />;
       default:
         return null;
     }
@@ -258,23 +254,16 @@ function App() {
                 </button>
               )}
               
-              <button
-                onClick={handleNext}
-                disabled={!canProceed()}
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
-              >
-                {currentStep === steps.length ? (
-                  <>
-                    <Eye className="h-4 w-4" />
-                    미리보기
-                  </>
-                ) : (
-                  <>
-                    다음
-                    <ChevronRight className="h-4 w-4" />
-                  </>
-                )}
-              </button>
+              {currentStep < steps.length && (
+                <button
+                  onClick={handleNext}
+                  disabled={!canProceed()}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                >
+                  다음
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </div>
         </div>
