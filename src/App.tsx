@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { ResumeData, PersonalInfo, TechStack, Project, NarrativeAnswers } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { ProgressBar } from './components/ProgressBar';
+import { ContentLevelSelection } from './components/ContentLevelSelection';
 import { PersonalInfoForm } from './components/PersonalInfoForm';
 import { TechStackForm } from './components/TechStackForm';
 import { ProjectsForm } from './components/ProjectsForm';
 import { NarrativeForm } from './components/NarrativeForm';
 import { TemplateSelection } from './components/TemplateSelection';
 import { ResumePreview } from './components/ResumePreview';
-import { ChevronLeft, ChevronRight, Download, Share2, Eye, Edit } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, Share2, Eye, Edit, Settings } from 'lucide-react';
 
 function App() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0); // Start with content level selection
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
 
-  const steps = ['기본 정보', '기술 스택', '프로젝트', '나의 이야기', '디자인'];
+  const steps = ['내용 선택', '기본 정보', '기술 스택', '프로젝트', '나의 이야기', '디자인'];
   
   // Initialize with empty data
   const initialData: ResumeData = {
@@ -44,25 +46,30 @@ function App() {
       motivation: ''
     },
     selectedTemplate: 'modern',
-    selectedTheme: 'blue'
+    selectedTheme: 'blue',
+    contentLevel: 'standard'
   };
 
   const [resumeData, setResumeData] = useLocalStorage<ResumeData>('dev-me-resume-data', initialData);
 
   const updatePersonalInfo = (data: PersonalInfo) => {
     setResumeData({ ...resumeData, personalInfo: data });
+    markStepCompleted(1);
   };
 
   const updateTechStack = (data: TechStack) => {
     setResumeData({ ...resumeData, techStack: data });
+    markStepCompleted(2);
   };
 
   const updateProjects = (data: Project[]) => {
     setResumeData({ ...resumeData, projects: data });
+    markStepCompleted(3);
   };
 
   const updateNarrativeAnswers = (data: NarrativeAnswers) => {
     setResumeData({ ...resumeData, narrativeAnswers: data });
+    markStepCompleted(4);
   };
 
   const updateTemplate = (template: string) => {
@@ -71,22 +78,43 @@ function App() {
 
   const updateTheme = (theme: string) => {
     setResumeData({ ...resumeData, selectedTheme: theme });
+    markStepCompleted(5);
+  };
+
+  const updateContentLevel = (level: string) => {
+    setResumeData({ ...resumeData, contentLevel: level as 'simple' | 'standard' | 'detailed' });
+    markStepCompleted(0);
+  };
+
+  const markStepCompleted = (step: number) => {
+    if (!completedSteps.includes(step)) {
+      setCompletedSteps([...completedSteps, step]);
+    }
   };
 
   const handleNext = () => {
-    if (currentStep < steps.length) {
+    if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const handlePrevious = () => {
-    if (currentStep > 1) {
+    if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleStepClick = (step: number) => {
+    // Allow navigation to any step after content level is selected
+    if (resumeData.contentLevel && step <= steps.length) {
+      setCurrentStep(step - 1);
     }
   };
 
   const canProceed = () => {
     switch (currentStep) {
+      case 0:
+        return resumeData.contentLevel;
       case 1:
         return resumeData.personalInfo.name.trim() && resumeData.personalInfo.email.trim();
       case 2:
@@ -176,11 +204,19 @@ function App() {
 
   const renderCurrentStep = () => {
     switch (currentStep) {
+      case 0:
+        return (
+          <ContentLevelSelection
+            selectedLevel={resumeData.contentLevel}
+            onLevelChange={updateContentLevel}
+          />
+        );
       case 1:
         return (
           <PersonalInfoForm
             data={resumeData.personalInfo}
             onChange={updatePersonalInfo}
+            contentLevel={resumeData.contentLevel}
           />
         );
       case 2:
@@ -202,6 +238,7 @@ function App() {
           <NarrativeForm
             data={resumeData.narrativeAnswers}
             onChange={updateNarrativeAnswers}
+            contentLevel={resumeData.contentLevel}
           />
         );
       case 5:
@@ -221,9 +258,11 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <ProgressBar
-        currentStep={currentStep}
+        currentStep={currentStep + 1}
         totalSteps={steps.length}
         steps={steps}
+        onStepClick={resumeData.contentLevel ? handleStepClick : undefined}
+        completedSteps={completedSteps}
       />
       
       <div className="max-w-6xl mx-auto px-6 py-8">
@@ -236,7 +275,7 @@ function App() {
           <div className="bg-gray-50 px-8 py-6 flex justify-between items-center border-t border-gray-100">
             <button
               onClick={handlePrevious}
-              disabled={currentStep === 1}
+              disabled={currentStep === 0}
               className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -244,7 +283,19 @@ function App() {
             </button>
             
             <div className="flex items-center gap-4">
-              {currentStep === steps.length && (
+              {/* Content Level Indicator */}
+              {resumeData.contentLevel && (
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <Settings className="h-4 w-4" />
+                  <span>
+                    {resumeData.contentLevel === 'simple' && '간단하게'}
+                    {resumeData.contentLevel === 'standard' && '기본'}
+                    {resumeData.contentLevel === 'detailed' && '상세하게'}
+                  </span>
+                </div>
+              )}
+
+              {currentStep === steps.length - 1 && (
                 <button
                   onClick={() => setIsPreviewMode(true)}
                   className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -254,7 +305,7 @@ function App() {
                 </button>
               )}
               
-              {currentStep < steps.length && (
+              {currentStep < steps.length - 1 && (
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}

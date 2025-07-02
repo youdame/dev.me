@@ -6,36 +6,76 @@ import { MessageCircle } from 'lucide-react';
 interface NarrativeFormProps {
   data: NarrativeAnswers;
   onChange: (data: NarrativeAnswers) => void;
+  contentLevel: 'simple' | 'standard' | 'detailed';
 }
 
-export const NarrativeForm: React.FC<NarrativeFormProps> = ({ data, onChange }) => {
+export const NarrativeForm: React.FC<NarrativeFormProps> = ({ data, onChange, contentLevel }) => {
   const handleChange = (field: keyof NarrativeAnswers, value: string) => {
     onChange({ ...data, [field]: value });
+  };
+
+  // Filter questions based on content level
+  const getQuestionsForLevel = () => {
+    switch (contentLevel) {
+      case 'simple':
+        return narrativeQuestions.slice(0, 1); // Only first question
+      case 'standard':
+        return narrativeQuestions.slice(0, 3); // First 3 questions
+      case 'detailed':
+        return narrativeQuestions; // All questions
+      default:
+        return narrativeQuestions.slice(0, 3);
+    }
+  };
+
+  const questionsToShow = getQuestionsForLevel();
+
+  const getLevelDescription = () => {
+    switch (contentLevel) {
+      case 'simple':
+        return '핵심 질문 1개로 간단하게 자신을 표현해보세요';
+      case 'standard':
+        return '3개의 주요 질문으로 당신의 개발자 여정을 들려주세요';
+      case 'detailed':
+        return '모든 질문에 답하여 완전한 개발자 스토리를 만들어보세요';
+      default:
+        return '당신의 개발자 스토리를 들려주세요';
+    }
   };
 
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-800 mb-2">당신의 개발자 스토리를 들려주세요</h2>
-        <p className="text-gray-600">여정, 도전, 그리고 꿈을 공유하여 차별화된 이야기를 만들어보세요</p>
+        <p className="text-gray-600">{getLevelDescription()}</p>
+        {contentLevel !== 'detailed' && (
+          <p className="text-sm text-blue-600 mt-2">
+            💡 나중에 설정에서 더 많은 질문을 추가할 수 있어요
+          </p>
+        )}
       </div>
 
       <div className="space-y-8">
-        {narrativeQuestions.map((question) => (
+        {questionsToShow.map((question, index) => (
           <div key={question.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <div className="flex items-start gap-4">
               <div className="bg-blue-100 p-2 rounded-lg flex-shrink-0">
                 <MessageCircle className="h-5 w-5 text-blue-600" />
               </div>
               <div className="flex-1">
-                <label className="block text-lg font-medium text-gray-800 mb-3">
-                  {question.question}
-                </label>
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                    {index + 1}/{questionsToShow.length}
+                  </span>
+                  <label className="block text-lg font-medium text-gray-800">
+                    {question.question}
+                  </label>
+                </div>
                 <textarea
                   value={data[question.id as keyof NarrativeAnswers]}
                   onChange={(e) => handleChange(question.id as keyof NarrativeAnswers, e.target.value)}
                   placeholder={question.placeholder}
-                  rows={4}
+                  rows={contentLevel === 'simple' ? 3 : 4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 resize-none"
                 />
                 <div className="mt-2 text-right">

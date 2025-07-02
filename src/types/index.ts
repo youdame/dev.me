@@ -44,6 +44,7 @@ export interface ResumeData {
   profileImage?: string;
   selectedTemplate: string;
   selectedTheme: string;
+  contentLevel: 'simple' | 'standard' | 'detailed';
 }
 
 export interface Template {
@@ -63,4 +64,11 @@ export interface Theme {
   card: string;
   text: string;
   textSecondary: string;
+}
+
+export interface ContentLevel {
+  id: 'simple' | 'standard' | 'detailed';
+  name: string;
+  description: string;
+  features: string[];
 }
