@@ -15,7 +15,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalStep
             dev.me
           </h1>
           <span className="text-sm text-gray-500">
-            Step {currentStep} of {totalSteps}
+            {currentStep}단계 / 총 {totalSteps}단계
           </span>
         </div>
         

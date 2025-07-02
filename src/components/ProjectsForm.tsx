@@ -95,14 +95,14 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Showcase Your Projects</h2>
-        <p className="text-gray-600">Add your best work to demonstrate your skills and experience</p>
+        <h2 className="text-3xl font-bold text-gray-800 mb-2">프로젝트 소개</h2>
+        <p className="text-gray-600">당신의 실력과 경험을 보여줄 수 있는 최고의 작품들을 추가해주세요</p>
       </div>
 
       {/* Existing Projects */}
       {data.length > 0 && (
         <div className="space-y-4 mb-8">
-          <h3 className="text-lg font-semibold text-gray-800">Your Projects</h3>
+          <h3 className="text-lg font-semibold text-gray-800">등록된 프로젝트</h3>
           {data.map((project) => (
             <div key={project.id} className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <div className="flex justify-between items-start mb-4">
@@ -133,14 +133,14 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
                   <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" 
                      className="text-gray-600 hover:text-gray-800 flex items-center gap-1">
                     <Github className="h-4 w-4" />
-                    <span className="text-sm">Code</span>
+                    <span className="text-sm">코드</span>
                   </a>
                 )}
                 {project.liveUrl && (
                   <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
                      className="text-blue-600 hover:text-blue-800 flex items-center gap-1">
                     <ExternalLink className="h-4 w-4" />
-                    <span className="text-sm">Live Demo</span>
+                    <span className="text-sm">라이브 데모</span>
                   </a>
                 )}
               </div>
@@ -151,12 +151,12 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
 
       {/* Add New Project Form */}
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">Add New Project</h3>
+        <h3 className="text-lg font-semibold text-gray-800 mb-4">새 프로젝트 추가</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <input
             type="text"
-            placeholder="Project Title *"
+            placeholder="프로젝트 제목 *"
             value={newProject.title || ''}
             onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
             className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -171,7 +171,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
             />
             <input
               type="url"
-              placeholder="Live URL"
+              placeholder="라이브 URL"
               value={newProject.liveUrl || ''}
               onChange={(e) => setNewProject({ ...newProject, liveUrl: e.target.value })}
               className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -180,7 +180,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
         </div>
 
         <textarea
-          placeholder="Project Description *"
+          placeholder="프로젝트 설명 *"
           value={newProject.description || ''}
           onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
           rows={3}
@@ -189,7 +189,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
 
         {/* Technologies */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Technologies Used</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">사용 기술</label>
           {newProject.technologies && newProject.technologies.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
               {newProject.technologies.map((tech) => (
@@ -205,7 +205,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Add technology (press Enter)"
+              placeholder="기술 추가 (엔터키로 추가)"
               className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -219,12 +219,12 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
 
         {/* Project Highlights */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Key Highlights</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">주요 성과</label>
           {newProject.highlights?.map((highlight, index) => (
             <div key={index} className="flex gap-2 mb-2">
               <input
                 type="text"
-                placeholder="Key achievement or feature"
+                placeholder="주요 성과나 특징"
                 value={highlight}
                 onChange={(e) => updateHighlight(index, e.target.value)}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
@@ -244,17 +244,17 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
             className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1 mt-2"
           >
             <Plus className="h-4 w-4" />
-            Add Highlight
+            성과 추가
           </button>
         </div>
 
         {/* Image Upload */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Project Image (Optional)</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">프로젝트 이미지 (선택사항)</label>
           <div className="flex items-center gap-4">
             <label className="cursor-pointer bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg flex items-center gap-2 transition-colors">
               <Upload className="h-4 w-4" />
-              <span className="text-sm">Upload Image</span>
+              <span className="text-sm">이미지 업로드</span>
               <input
                 type="file"
                 accept="image/*"
@@ -264,7 +264,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
             </label>
             {newProject.image && (
               <div className="relative">
-                <img src={newProject.image} alt="Project preview" className="w-16 h-16 object-cover rounded-lg" />
+                <img src={newProject.image} alt="프로젝트 미리보기" className="w-16 h-16 object-cover rounded-lg" />
                 <button
                   onClick={() => setNewProject({ ...newProject, image: undefined })}
                   className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1"
@@ -282,7 +282,7 @@ export const ProjectsForm: React.FC<ProjectsFormProps> = ({ data, onChange }) =>
           className="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
         >
           <Plus className="h-5 w-5" />
-          Add Project
+          프로젝트 추가
         </button>
       </div>
     </div>

@@ -71,12 +71,12 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
             {Object.entries(data.narrativeAnswers).map(([key, answer]) => {
               if (!answer.trim()) return null;
               const questions = {
-                hardestProblem: 'Most Challenging Problem',
-                proudestAchievement: 'Proudest Achievement',
-                learningExperience: 'Learning Journey',
-                futureGoals: 'Future Aspirations',
-                workStyle: 'Work Approach',
-                motivation: 'What Drives Me'
+                hardestProblem: '가장 어려웠던 문제',
+                proudestAchievement: '가장 자랑스러운 성과',
+                learningExperience: '학습 여정',
+                futureGoals: '미래 목표',
+                workStyle: '업무 접근법',
+                motivation: '개발 동기'
               };
               return (
                 <div key={key} style={cardStyle} className="rounded-xl p-6 shadow-sm">
@@ -92,7 +92,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
           {/* Projects */}
           {data.projects.length > 0 && (
             <div>
-              <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>Featured Projects</h2>
+              <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>주요 프로젝트</h2>
               <div className="space-y-6">
                 {data.projects.map((project) => (
                   <div key={project.id} style={cardStyle} className="rounded-xl p-6 shadow-sm">
@@ -135,13 +135,19 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
           {/* Tech Stack */}
           <div>
-            <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>Technology Stack</h2>
+            <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>기술 스택</h2>
             <div style={cardStyle} className="rounded-xl p-6 shadow-sm">
               {Object.entries(data.techStack).map(([category, items]) => {
                 if (items.length === 0) return null;
+                const categoryNames = {
+                  languages: '프로그래밍 언어',
+                  frameworks: '프레임워크 & 라이브러리',
+                  tools: '도구 & 플랫폼',
+                  databases: '데이터베이스'
+                };
                 return (
                   <div key={category} className="mb-4 last:mb-0">
-                    <h3 className="font-semibold mb-2 capitalize opacity-80">{category}</h3>
+                    <h3 className="font-semibold mb-2 opacity-80">{categoryNames[category as keyof typeof categoryNames]}</h3>
                     <div className="flex flex-wrap gap-2">
                       {items.map((item) => (
                         <span 
@@ -214,12 +220,18 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
             {/* Tech Stack */}
             <div style={cardStyle} className="rounded-xl p-6 shadow-sm">
-              <h2 className="text-lg font-bold mb-4" style={{ color: primaryColor }}>Tech Stack</h2>
+              <h2 className="text-lg font-bold mb-4" style={{ color: primaryColor }}>기술 스택</h2>
               {Object.entries(data.techStack).map(([category, items]) => {
                 if (items.length === 0) return null;
+                const categoryNames = {
+                  languages: '언어',
+                  frameworks: '프레임워크',
+                  tools: '도구',
+                  databases: 'DB'
+                };
                 return (
                   <div key={category} className="mb-4 last:mb-0">
-                    <h3 className="text-sm font-semibold mb-2 capitalize opacity-80">{category}</h3>
+                    <h3 className="text-sm font-semibold mb-2 opacity-80">{categoryNames[category as keyof typeof categoryNames]}</h3>
                     <div className="flex flex-wrap gap-1">
                       {items.map((item) => (
                         <span 
@@ -242,7 +254,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
             {/* Projects */}
             {data.projects.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>Projects</h2>
+                <h2 className="text-2xl font-bold mb-6" style={{ color: primaryColor }}>프로젝트</h2>
                 <div className="grid gap-6">
                   {data.projects.map((project) => (
                     <div key={project.id} style={cardStyle} className="rounded-xl p-6 shadow-sm">
@@ -295,12 +307,12 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
               {Object.entries(data.narrativeAnswers).map(([key, answer]) => {
                 if (!answer.trim()) return null;
                 const questions = {
-                  hardestProblem: 'Challenging Problem Solved',
-                  proudestAchievement: 'Proudest Achievement',
-                  learningExperience: 'Learning Journey',
-                  futureGoals: 'Future Goals',
-                  workStyle: 'Work Approach',
-                  motivation: 'What Drives Me'
+                  hardestProblem: '해결한 어려운 문제',
+                  proudestAchievement: '가장 자랑스러운 성과',
+                  learningExperience: '학습 여정',
+                  futureGoals: '미래 목표',
+                  workStyle: '업무 접근법',
+                  motivation: '개발 동기'
                 };
                 return (
                   <div key={key} style={cardStyle} className="rounded-xl p-6 shadow-sm">

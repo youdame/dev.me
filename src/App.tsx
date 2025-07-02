@@ -14,7 +14,7 @@ function App() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
-  const steps = ['Basic Info', 'Tech Stack', 'Projects', 'Your Story', 'Design', 'Preview'];
+  const steps = ['기본 정보', '기술 스택', '프로젝트', '나의 이야기', '디자인', '미리보기'];
   
   // Initialize with empty data
   const initialData: ResumeData = {
@@ -113,19 +113,19 @@ function App() {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `${resumeData.personalInfo.name} - Developer Resume`,
+          title: `${resumeData.personalInfo.name} - 개발자 이력서`,
           url: url,
         });
       } catch (error) {
-        console.log('Error sharing:', error);
+        console.log('공유 오류:', error);
       }
     } else {
       // Fallback: copy to clipboard
       try {
         await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard!');
+        alert('링크가 클립보드에 복사되었습니다!');
       } catch (error) {
-        console.log('Error copying to clipboard:', error);
+        console.log('클립보드 복사 오류:', error);
       }
     }
   };
@@ -140,7 +140,7 @@ function App() {
               <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 dev.me
               </h1>
-              <p className="text-sm text-gray-600">Resume Preview</p>
+              <p className="text-sm text-gray-600">이력서 미리보기</p>
             </div>
             
             <div className="flex items-center gap-4">
@@ -149,7 +149,7 @@ function App() {
                 className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
               >
                 <Edit className="h-4 w-4" />
-                Edit
+                편집
               </button>
               
               <button
@@ -157,7 +157,7 @@ function App() {
                 className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Download className="h-4 w-4" />
-                Export PDF
+                PDF 다운로드
               </button>
               
               <button
@@ -165,7 +165,7 @@ function App() {
                 className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
                 <Share2 className="h-4 w-4" />
-                Share
+                공유하기
               </button>
             </div>
           </div>
@@ -244,7 +244,7 @@ function App() {
               className="flex items-center gap-2 px-6 py-3 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              이전
             </button>
             
             <div className="flex items-center gap-4">
@@ -254,7 +254,7 @@ function App() {
                   className="flex items-center gap-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
                   <Eye className="h-4 w-4" />
-                  Preview
+                  미리보기
                 </button>
               )}
               
@@ -266,11 +266,11 @@ function App() {
                 {currentStep === steps.length ? (
                   <>
                     <Eye className="h-4 w-4" />
-                    Preview
+                    미리보기
                   </>
                 ) : (
                   <>
-                    Next
+                    다음
                     <ChevronRight className="h-4 w-4" />
                   </>
                 )}

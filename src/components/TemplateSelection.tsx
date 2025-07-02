@@ -18,13 +18,13 @@ export const TemplateSelection: React.FC<TemplateSelectionProps> = ({
   return (
     <div className="space-y-8">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Choose Your Style</h2>
-        <p className="text-gray-600">Select a template and color theme that represents your personality</p>
+        <h2 className="text-3xl font-bold text-gray-800 mb-2">스타일 선택</h2>
+        <p className="text-gray-600">당신의 개성을 나타낼 템플릿과 컬러 테마를 선택해주세요</p>
       </div>
 
       {/* Template Selection */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Layout Templates</h3>
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">레이아웃 템플릿</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {templates.map((template) => (
             <div
@@ -58,7 +58,7 @@ export const TemplateSelection: React.FC<TemplateSelectionProps> = ({
 
       {/* Theme Selection */}
       <div>
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Color Themes</h3>
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">컬러 테마</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {themes.map((theme) => (
             <div
@@ -102,12 +102,12 @@ export const TemplateSelection: React.FC<TemplateSelectionProps> = ({
       </div>
 
       <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-        <h3 className="font-semibold text-gray-800 mb-2">🎨 Preview Your Choice</h3>
+        <h3 className="font-semibold text-gray-800 mb-2">🎨 선택 미리보기</h3>
         <p className="text-gray-600 text-sm mb-4">
-          Your selected template: <span className="font-medium">{templates.find(t => t.id === selectedTemplate)?.name}</span>
+          선택한 템플릿: <span className="font-medium">{templates.find(t => t.id === selectedTemplate)?.name}</span>
         </p>
         <p className="text-gray-600 text-sm">
-          Your selected theme: <span className="font-medium">{themes.find(t => t.id === selectedTheme)?.name}</span>
+          선택한 테마: <span className="font-medium">{themes.find(t => t.id === selectedTheme)?.name}</span>
         </p>
       </div>
     </div>

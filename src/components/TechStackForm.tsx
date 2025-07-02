@@ -39,7 +39,7 @@ export const TechStackForm: React.FC<TechStackFormProps> = ({ data, onChange }) 
       {/* Selected items */}
       {data[category].length > 0 && (
         <div className="mb-4">
-          <p className="text-sm text-gray-600 mb-2">Selected:</p>
+          <p className="text-sm text-gray-600 mb-2">선택된 기술:</p>
           <div className="flex flex-wrap gap-2">
             {data[category].map((item) => (
               <span
@@ -78,7 +78,7 @@ export const TechStackForm: React.FC<TechStackFormProps> = ({ data, onChange }) 
           type="text"
           value={customInput[category]}
           onChange={(e) => setCustomInput({ ...customInput, [category]: e.target.value })}
-          placeholder={`Add custom ${title.toLowerCase()}`}
+          placeholder={`${title} 직접 추가`}
           className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
           onKeyPress={(e) => e.key === 'Enter' && handleCustomAdd(category)}
         />
@@ -95,15 +95,15 @@ export const TechStackForm: React.FC<TechStackFormProps> = ({ data, onChange }) 
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Your Tech Stack</h2>
-        <p className="text-gray-600">Select the technologies you work with. Don't see something? Add it!</p>
+        <h2 className="text-3xl font-bold text-gray-800 mb-2">기술 스택</h2>
+        <p className="text-gray-600">사용하는 기술들을 선택해주세요. 없는 기술이 있다면 직접 추가할 수 있어요!</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {renderCategory('languages', 'Languages', techStackOptions.languages)}
-        {renderCategory('frameworks', 'Frameworks & Libraries', techStackOptions.frameworks)}
-        {renderCategory('tools', 'Tools & Platforms', techStackOptions.tools)}
-        {renderCategory('databases', 'Databases', techStackOptions.databases)}
+        {renderCategory('languages', '프로그래밍 언어', techStackOptions.languages)}
+        {renderCategory('frameworks', '프레임워크 & 라이브러리', techStackOptions.frameworks)}
+        {renderCategory('tools', '도구 & 플랫폼', techStackOptions.tools)}
+        {renderCategory('databases', '데이터베이스', techStackOptions.databases)}
       </div>
     </div>
   );

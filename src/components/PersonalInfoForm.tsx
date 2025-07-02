@@ -13,20 +13,20 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
   };
 
   const inputFields = [
-    { key: 'name' as keyof PersonalInfo, label: 'Full Name', icon: User, required: true },
-    { key: 'email' as keyof PersonalInfo, label: 'Email', icon: Mail, required: true, type: 'email' },
-    { key: 'phone' as keyof PersonalInfo, label: 'Phone', icon: Phone, type: 'tel' },
-    { key: 'location' as keyof PersonalInfo, label: 'Location', icon: MapPin },
+    { key: 'name' as keyof PersonalInfo, label: '이름', icon: User, required: true },
+    { key: 'email' as keyof PersonalInfo, label: '이메일', icon: Mail, required: true, type: 'email' },
+    { key: 'phone' as keyof PersonalInfo, label: '전화번호', icon: Phone, type: 'tel' },
+    { key: 'location' as keyof PersonalInfo, label: '거주지', icon: MapPin },
     { key: 'github' as keyof PersonalInfo, label: 'GitHub URL', icon: Github, type: 'url' },
     { key: 'linkedin' as keyof PersonalInfo, label: 'LinkedIn URL', icon: Linkedin, type: 'url' },
-    { key: 'website' as keyof PersonalInfo, label: 'Personal Website', icon: Globe, type: 'url' },
+    { key: 'website' as keyof PersonalInfo, label: '개인 웹사이트', icon: Globe, type: 'url' },
   ];
 
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-800 mb-2">Let's start with the basics</h2>
-        <p className="text-gray-600">Tell us about yourself so we can create your developer story</p>
+        <h2 className="text-3xl font-bold text-gray-800 mb-2">기본 정보부터 시작해볼까요</h2>
+        <p className="text-gray-600">당신의 개발자 스토리를 만들기 위해 기본 정보를 알려주세요</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -47,7 +47,7 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
                   value={data[field.key]}
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400"
-                  placeholder={`Enter your ${field.label.toLowerCase()}`}
+                  placeholder={`${field.label}을(를) 입력해주세요`}
                 />
               </div>
             </div>
@@ -57,14 +57,14 @@ export const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ data, onChan
 
       <div className="mt-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Bio / About Me
+          자기소개 / 소개글
         </label>
         <textarea
           value={data.bio}
           onChange={(e) => handleChange('bio', e.target.value)}
           rows={4}
           className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 resize-none"
-          placeholder="Write a brief description about yourself, your interests, and what drives you as a developer..."
+          placeholder="자신에 대한 간단한 소개, 관심사, 개발자로서의 동기 등을 작성해주세요..."
         />
       </div>
     </div>
