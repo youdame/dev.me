@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ResumeData, PersonalInfo, TechStack, Project, NarrativeAnswers } from './types';
+import { ResumeData, PersonalInfo, TechStack, Project, NarrativeAnswers, CustomQuestion } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { ProgressBar } from './components/ProgressBar';
 import { ContentLevelSelection } from './components/ContentLevelSelection';
@@ -45,6 +45,7 @@ function App() {
       workStyle: '',
       motivation: ''
     },
+    customQuestions: [],
     selectedTemplate: 'modern',
     selectedTheme: 'blue',
     contentLevel: 'standard'
@@ -70,6 +71,10 @@ function App() {
   const updateNarrativeAnswers = (data: NarrativeAnswers) => {
     setResumeData({ ...resumeData, narrativeAnswers: data });
     markStepCompleted(4);
+  };
+
+  const updateCustomQuestions = (data: CustomQuestion[]) => {
+    setResumeData({ ...resumeData, customQuestions: data });
   };
 
   const updateTemplate = (template: string) => {
@@ -237,7 +242,9 @@ function App() {
         return (
           <NarrativeForm
             data={resumeData.narrativeAnswers}
+            customQuestions={resumeData.customQuestions}
             onChange={updateNarrativeAnswers}
+            onCustomQuestionsChange={updateCustomQuestions}
             contentLevel={resumeData.contentLevel}
           />
         );

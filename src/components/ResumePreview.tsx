@@ -1,6 +1,7 @@
 import React from 'react';
 import { ResumeData } from '../types';
 import { themes } from '../data/templates';
+import { narrativeQuestions } from '../data/techStack';
 import { Mail, Phone, MapPin, Github, Linkedin, Globe, ExternalLink, Calendar } from 'lucide-react';
 
 interface ResumePreviewProps {
@@ -23,6 +24,46 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
   const primaryColor = currentTheme.primary;
   const secondaryColor = currentTheme.secondary;
+
+  // Get all narrative answers including custom ones
+  const getAllNarrativeAnswers = () => {
+    const answers = [];
+    
+    // Standard questions
+    const standardQuestions = {
+      hardestProblem: '가장 어려웠던 문제',
+      proudestAchievement: '가장 자랑스러운 성과',
+      learningExperience: '학습 여정',
+      futureGoals: '미래 목표',
+      workStyle: '업무 접근법',
+      motivation: '개발 동기'
+    };
+
+    // Add standard questions
+    Object.entries(standardQuestions).forEach(([key, title]) => {
+      const answer = data.narrativeAnswers[key];
+      if (answer && answer.trim()) {
+        answers.push({ id: key, title, answer, isCustom: false });
+      }
+    });
+
+    // Add custom questions
+    data.customQuestions.forEach(question => {
+      const answer = data.narrativeAnswers[question.id];
+      if (answer && answer.trim()) {
+        answers.push({ 
+          id: question.id, 
+          title: question.question, 
+          answer, 
+          isCustom: true 
+        });
+      }
+    });
+
+    return answers;
+  };
+
+  const allAnswers = getAllNarrativeAnswers();
 
   if (data.selectedTemplate === 'minimal') {
     return (
@@ -68,25 +109,21 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
           {/* Narrative Stories */}
           <div className="space-y-6">
-            {Object.entries(data.narrativeAnswers).map(([key, answer]) => {
-              if (!answer.trim()) return null;
-              const questions = {
-                hardestProblem: '가장 어려웠던 문제',
-                proudestAchievement: '가장 자랑스러운 성과',
-                learningExperience: '학습 여정',
-                futureGoals: '미래 목표',
-                workStyle: '업무 접근법',
-                motivation: '개발 동기'
-              };
-              return (
-                <div key={key} style={cardStyle} className="rounded-xl p-6 shadow-sm">
-                  <h3 className="text-lg font-semibold mb-3" style={{ color: primaryColor }}>
-                    {questions[key as keyof typeof questions]}
+            {allAnswers.map((item) => (
+              <div key={item.id} style={cardStyle} className="rounded-xl p-6 shadow-sm">
+                <div className="flex items-center gap-2 mb-3">
+                  <h3 className="text-lg font-semibold" style={{ color: primaryColor }}>
+                    {item.title}
                   </h3>
-                  <p className="leading-relaxed">{answer}</p>
+                  {item.isCustom && (
+                    <span className="text-xs px-2 py-1 bg-purple-100 text-purple-600 rounded-full">
+                      나만의 스토리
+                    </span>
+                  )}
                 </div>
-              );
-            })}
+                <p className="leading-relaxed">{item.answer}</p>
+              </div>
+            ))}
           </div>
 
           {/* Projects */}
@@ -304,25 +341,21 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ data }) => {
 
             {/* Narrative Answers */}
             <div className="space-y-4">
-              {Object.entries(data.narrativeAnswers).map(([key, answer]) => {
-                if (!answer.trim()) return null;
-                const questions = {
-                  hardestProblem: '해결한 어려운 문제',
-                  proudestAchievement: '가장 자랑스러운 성과',
-                  learningExperience: '학습 여정',
-                  futureGoals: '미래 목표',
-                  workStyle: '업무 접근법',
-                  motivation: '개발 동기'
-                };
-                return (
-                  <div key={key} style={cardStyle} className="rounded-xl p-6 shadow-sm">
-                    <h3 className="font-semibold mb-3" style={{ color: primaryColor }}>
-                      {questions[key as keyof typeof questions]}
+              {allAnswers.map((item) => (
+                <div key={item.id} style={cardStyle} className="rounded-xl p-6 shadow-sm">
+                  <div className="flex items-center gap-2 mb-3">
+                    <h3 className="font-semibold" style={{ color: primaryColor }}>
+                      {item.title}
                     </h3>
-                    <p className="text-sm leading-relaxed opacity-90">{answer}</p>
+                    {item.isCustom && (
+                      <span className="text-xs px-2 py-1 bg-purple-100 text-purple-600 rounded-full">
+                        나만의 스토리
+                      </span>
+                    )}
                   </div>
-                );
-              })}
+                  <p className="text-sm leading-relaxed opacity-90">{item.answer}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>

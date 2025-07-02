@@ -34,6 +34,14 @@ export interface NarrativeAnswers {
   futureGoals: string;
   workStyle: string;
   motivation: string;
+  [key: string]: string; // Allow custom questions
+}
+
+export interface CustomQuestion {
+  id: string;
+  question: string;
+  placeholder: string;
+  isCustom: true;
 }
 
 export interface ResumeData {
@@ -41,6 +49,7 @@ export interface ResumeData {
   techStack: TechStack;
   projects: Project[];
   narrativeAnswers: NarrativeAnswers;
+  customQuestions: CustomQuestion[];
   profileImage?: string;
   selectedTemplate: string;
   selectedTheme: string;
