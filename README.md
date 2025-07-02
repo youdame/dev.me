@@ -3,7 +3,7 @@
 > "dev.me"는 **개발자 자신을 감성적으로 표현할 수 있는 서사 기반 이력서 생성기**입니다.
 > 기존의 딱딱한 양식이 아닌, 자기소개와 기술, 경험을 카드 형태로 표현할 수 있게 도와줍니다.
 
-📎 배포 URL: [https://shimmering-maamoul-d37fdb.netlify.app/](https://shimmering-maamoul-d37fdb.netlify.app/)
+📎 배포 URL: [https://gregarious-torrone-275859.netlify.app](https://gregarious-torrone-275859.netlify.app)
 
 ---
 
